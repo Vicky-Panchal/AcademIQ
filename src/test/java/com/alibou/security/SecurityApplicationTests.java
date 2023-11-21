@@ -1,10 +1,10 @@
-package com.academiq.academiq;
+package com.alibou.security;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class AcademiqApplicationTests {
+class SecurityApplicationTests {
 
 	@Test
 	void contextLoads() {
