@@ -20,18 +20,15 @@ public class EmployeeService {
     public Optional<List<EmployeeSalary>> getSalaryDetails(Integer facultyId) {
         // Extract faculty ID from token
         // Fetch salary details for the faculty
-        System.out.println("************************************************");
         Optional<Employee> employeeOptional = employeeRepository.findById(facultyId);
-        System.out.println("---------------------------------------------------");
+
         Optional<List<EmployeeSalary>> employeeSalaries = Optional.empty();
-        System.out.println("#####################################################");
+
         if (employeeOptional.isPresent()) {
             Employee employee = employeeOptional.get();
             // Fetching salary details for the employee
             try {
-                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                employeeSalaries = employeeSalaryRepository.findByEmployee(employee);
-                System.out.println("=================================================");
+                employeeSalaries = employeeSalaryRepository.findAllByEmployee(employee);
                 return employeeSalaries;
             }
             catch(Exception ex) {

@@ -32,6 +32,9 @@ public class EmployeeSalary {
     @Column(name = "description", length = 255)
     private String description;
 
+    @Column(name = "salary_slip", length = 255)
+    private String salarySlip;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id")
     private Employee employee;

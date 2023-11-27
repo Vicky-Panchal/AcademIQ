@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 @SpringBootApplication
@@ -79,13 +80,19 @@ public class AcademIQApplication {
 					employeeRepository.save(employee2);
 
 					// Example employeeSalary creation
-					EmployeeSalary salary1 = EmployeeSalary.builder().paymentDate(new Date()).amount(BigDecimal.valueOf(5000))
-							.description("Monthly salary").employee(employee1).build();
+					EmployeeSalary salary1 = EmployeeSalary.builder().paymentDate(java.sql.Date.valueOf(LocalDate.parse("2023-11-01"))).amount(BigDecimal.valueOf(15000))
+							.description("Monthly salary").employee(employee1).salarySlip("https://drive.google.com/file/d/1mpxA_05zN9l_F64Om3MBBRHIjHFzxChR/view?usp=drive_link").build();
+					EmployeeSalary salary3 = EmployeeSalary.builder().paymentDate(java.sql.Date.valueOf(LocalDate.parse("2023-10-01"))).amount(BigDecimal.valueOf(10000))
+							.description("Monthly salary").employee(employee1).salarySlip("https://drive.google.com/file/d/1mpxA_05zN9l_F64Om3MBBRHIjHFzxChR/view?usp=drive_link").build();
+					EmployeeSalary salary4 = EmployeeSalary.builder().paymentDate(java.sql.Date.valueOf(LocalDate.parse("2023-09-01"))).amount(BigDecimal.valueOf(5000))
+							.description("Monthly salary").employee(employee1).salarySlip("https://drive.google.com/file/d/1mpxA_05zN9l_F64Om3MBBRHIjHFzxChR/view?usp=drive_link").build();
 					EmployeeSalary salary2 = EmployeeSalary.builder().paymentDate(new Date()).amount(BigDecimal.valueOf(6000))
-							.description("Monthly salary").employee(employee2).build();
+							.description("Monthly salary").employee(employee2).salarySlip("https://drive.google.com/file/d/1mpxA_05zN9l_F64Om3MBBRHIjHFzxChR/view?usp=drive_link").build();
 
 					// Save employee salaries
 					employeeSalaryRepository.save(salary1);
+					employeeSalaryRepository.save(salary3);
+					employeeSalaryRepository.save(salary4);
 					employeeSalaryRepository.save(salary2);
 				}
 
