@@ -23,5 +23,6 @@ public class AuthenticationResponse {
   @JsonProperty("last_name")
   private String lastName;
 
-
+  @JsonProperty("user_id")
+  private Integer userId;
 }

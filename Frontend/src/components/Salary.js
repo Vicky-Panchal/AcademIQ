@@ -21,8 +21,8 @@ const Salary = ({ user, setUser }) => {
     const fetchSalaryDetails = async () => {
       try {
         const token = JSON.parse(localStorage.getItem('loggedInUser')).access_token; // Replace with your authorization token
-        const facultyId = 1; // Replace with the actual faculty ID
-        
+        const facultyId = JSON.parse(localStorage.getItem('loggedInUser')).user_id; // Replace with the actual faculty ID
+        console.log()
         const response = await axios.get(`/api/v1/employee/salary/${facultyId}`, {
           headers: {
             "access-control-allow-origin" : "*",
@@ -56,9 +56,9 @@ const Salary = ({ user, setUser }) => {
   }, []);
 
   const handleDownload = async (month, salarySlip) => {
-    console.log(`Downloading salary slip for ${month}`);
+    console.log(`Downloading salary slip for ${salarySlip}`);
 
-    window.open(salarySlip, '_blank');
+    window.open('http://localhost:8081/api/v1/employee/download?path=' + salarySlip, '_blank');
   };
   console.log(salaryDetails);
   return (
@@ -75,14 +75,14 @@ const Salary = ({ user, setUser }) => {
             <div>
               <p>Gross Salary:</p>
               <p>Taxes:</p>
-              <p>Other Deductions:</p>
+              <p>Description:</p>
               <p className="net-salary">Net Salary:</p>
             </div>
             <div>
               <p>₹{salaryDetails.totalSalary}</p>
-              <p>₹{salaryDetails.taxes}</p>
-              <p>₹{salaryDetails.otherDeductions}</p>
-              <p className="net-salary">₹{salaryDetails.netSalary}</p>
+              <p>18%</p>
+              <p>{salaryDetails.description}</p>
+              <p className="net-salary">₹{salaryDetails.totalSalary - 0.18*salaryDetails.totalSalary}</p>
             </div>
           </div>
         </div>

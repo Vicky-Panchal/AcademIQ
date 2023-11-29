@@ -28,7 +28,7 @@ const NavBar = ({ user, setUser }) => {
       <Link to="/" className="left-button">Home</Link>
       <div className="right-buttons">
         {/* <Link to="/salary">Salary</Link> */}
-        <Link to="/profile">Profile</Link>
+        {/* <Link to="/profile">Profile</Link> */}
         <button onClick={logout}>Logout</button>
       </div>
     </div>

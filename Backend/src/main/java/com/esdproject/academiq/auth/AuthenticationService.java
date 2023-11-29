@@ -64,6 +64,7 @@ public class AuthenticationService {
             .refreshToken(refreshToken)
             .firstName(user.getFirstname())
             .lastName(user.getLastname())
+            .userId(user.getId())
         .build();
   }
 

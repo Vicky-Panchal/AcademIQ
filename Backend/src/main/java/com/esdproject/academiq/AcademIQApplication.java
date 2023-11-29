@@ -81,13 +81,13 @@ public class AcademIQApplication {
 
 					// Example employeeSalary creation
 					EmployeeSalary salary1 = EmployeeSalary.builder().paymentDate(java.sql.Date.valueOf(LocalDate.parse("2023-11-01"))).amount(BigDecimal.valueOf(15000))
-							.description("Monthly salary").employee(employee1).salarySlip("https://drive.google.com/file/d/1mpxA_05zN9l_F64Om3MBBRHIjHFzxChR/view?usp=drive_link").build();
+							.description("Monthly salary").employee(employee1).salarySlip("/home/vicky/AcademIQ/Backend/src/main/resources/pdfs/salary_slip.pdf").build();
 					EmployeeSalary salary3 = EmployeeSalary.builder().paymentDate(java.sql.Date.valueOf(LocalDate.parse("2023-10-01"))).amount(BigDecimal.valueOf(10000))
-							.description("Monthly salary").employee(employee1).salarySlip("https://drive.google.com/file/d/1mpxA_05zN9l_F64Om3MBBRHIjHFzxChR/view?usp=drive_link").build();
+							.description("Monthly salary").employee(employee1).salarySlip("/home/vicky/AcademIQ/Backend/src/main/resources/pdfs/salary_slip.pdf").build();
 					EmployeeSalary salary4 = EmployeeSalary.builder().paymentDate(java.sql.Date.valueOf(LocalDate.parse("2023-09-01"))).amount(BigDecimal.valueOf(5000))
-							.description("Monthly salary").employee(employee1).salarySlip("https://drive.google.com/file/d/1mpxA_05zN9l_F64Om3MBBRHIjHFzxChR/view?usp=drive_link").build();
+							.description("Monthly salary").employee(employee1).salarySlip("/home/vicky/AcademIQ/Backend/src/main/resources/pdfs/salary_slip.pdf").build();
 					EmployeeSalary salary2 = EmployeeSalary.builder().paymentDate(new Date()).amount(BigDecimal.valueOf(6000))
-							.description("Monthly salary").employee(employee2).salarySlip("https://drive.google.com/file/d/1mpxA_05zN9l_F64Om3MBBRHIjHFzxChR/view?usp=drive_link").build();
+							.description("Monthly salary").employee(employee2).salarySlip("/home/vicky/AcademIQ/Backend/src/main/resources/pdfs/salary_slip.pdf").build();
 
 					// Save employee salaries
 					employeeSalaryRepository.save(salary1);
