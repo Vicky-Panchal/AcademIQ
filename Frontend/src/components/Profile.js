@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import '../styles/profile.css'
+import '../styles/profile.css';
 import NavBar from "./NavBar";
+
 function Profile() {
   // Mock user data (you might fetch this from an API)
   const [user, setUser] = useState({
@@ -9,19 +10,20 @@ function Profile() {
     address: "123 Main St, City, Country",
   });
 
-  useEffect(() => {
-    const loggedInUser = window.localStorage.getItem('loggedInUser')
-    if (loggedInUser)
-      setUser(JSON.parse(loggedInUser))
-  }, [])
   const [editMode, setEditMode] = useState(false);
 
+  useEffect(() => {
+    const loggedInUser = window.localStorage.getItem("loggedInUser");
+    if (loggedInUser) {
+      setUser(JSON.parse(loggedInUser));
+    }
+  }, []);
+
   const handleInputChange = (e) => {
-    const user = window.localStorage.getItem('loggedInUser')
-    setUser({
-      ...user,
+    setUser((prevUser) => ({
+      ...prevUser,
       [e.target.name]: e.target.value,
-    });
+    }));
   };
 
   const handleEditProfile = () => {
@@ -30,21 +32,19 @@ function Profile() {
 
   const handleSaveProfile = () => {
     setEditMode(false);
-    // Here you might send updated user data to the server
+    // Save updated user data
+    window.localStorage.setItem("loggedInUser", JSON.stringify(user));
     console.log("Updated User Data:", user);
   };
 
   const handleLogout = () => {
-    // Your logout logic here (e.g., clearing tokens, etc.)
+    // Your logout logic here
     console.log("Logged out");
   };
 
   return (
     <div className="account-page">
-      {
-        user && 
-        <NavBar user={user} setUser={setUser}/>
-      } 
+      {user && <NavBar user={user} setUser={setUser} />}
       <h1>Account Details</h1>
       <div className="user-details">
         <label>
@@ -53,7 +53,7 @@ function Profile() {
             <input
               type="text"
               name="name"
-              value={user.name}
+              value={user.name || ""}
               onChange={handleInputChange}
             />
           ) : (
@@ -70,7 +70,7 @@ function Profile() {
             <input
               type="text"
               name="address"
-              value={user.address}
+              value={user.address || ""}
               onChange={handleInputChange}
             />
           ) : (

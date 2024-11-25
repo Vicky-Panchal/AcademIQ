@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios';
 
 // The API endpoint where login data is sent to
 const loginBaseUrl = `/api/v1/auth/authenticate`
