@@ -1,66 +1,46 @@
-import React, { useEffect, useState } from 'react';
-import '../styles/salary.css'; // Import your CSS file
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
 
-const Salary = ({ user, setUser }) => {
-  const [salaryDetails, setSalaryDetails] = useState({
-    employeeName: "Vicky Panchal",
-    paymentDate: "2023-11-26",
-    totalSalary: 50000,
-    description: "Monthly Salary",
-    otherDeductions: 5000,
-    netSalary: 30000,
-    history: [
-      { paymentDate: new Date(), amount: 5000 },
-      { paymentDate: new Date(), amount: 5200 },
-      // Add more history data as needed
-    ],
-  });
+const Salary = ({ user }) => {
+  const [salaryDetails, setSalaryDetails] = useState(null);
+  const [error, setError] = useState(null);
+
+  const fetchSalaryDetails = async () => {
+    try {
+      const response = await fetch("http://example.com/api/salary", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${user?.access_token || ""}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch salary details");
+      }
+
+      const data = await response.json();
+      setSalaryDetails(data);
+    } catch (err) {
+      console.error("Error fetching salary details:", err);
+      setError(err.message);
+    }
+  };
 
   useEffect(() => {
-    const fetchSalaryDetails = async () => {
-      try {
-        const token = JSON.parse(localStorage.getItem('loggedInUser')).access_token; // Replace with your authorization token
-        const facultyId = JSON.parse(localStorage.getItem('loggedInUser')).user_id; // Replace with the actual faculty ID
-        console.log()
-        const response = await axios.get(`/api/v1/employee/salary/${facultyId}`, {
-          headers: {
-            "access-control-allow-origin" : "*",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log("response: "+ JSON.stringify(response.data[2]));
-        // Update state with the fetched data
-        const history = response.data.slice(1).map(item => ({
-          paymentDate: item.paymentDate,
-          amount: item.amount,
-          salarySlip: item.salarySlip
-        }));
+    if (user?.access_token) {
+      fetchSalaryDetails();
+    } else {
+      setError("User not authenticated");
+    }
+  }, [user]);
 
-        setSalaryDetails({
-          employeeName: user.first_name + " " + user.last_name,
-          paymentDate: response.data[0].paymentDate,
-          totalSalary: response.data[0].amount,
-          description: response.data[0].description,
-          otherDeductions: 5000,
-          netSalary: response.data.amount,
-          history: history,
-        });
-      } catch (error) {
-        // Handle error
-        console.error('Error fetching salary details:', error);
-      }
-    };
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
-    fetchSalaryDetails();
-  }, []);
+  if (!salaryDetails) {
+    return <div>Loading salary details...</div>;
+  }
 
-  const handleDownload = async (month, salarySlip) => {
-    console.log(`Downloading salary slip for ${salarySlip}`);
-
-    window.open('http://localhost:8081/api/v1/employee/download?path=' + salarySlip, '_blank');
-  };
-  console.log(salaryDetails);
   return (
     <div className="salary-page">
       <div className="salary-container">
@@ -80,22 +60,20 @@ const Salary = ({ user, setUser }) => {
             </div>
             <div>
               <p>₹{salaryDetails.totalSalary}</p>
-              <p>18%</p>
+              <p>{salaryDetails.taxes || "18%"}</p>
               <p>{salaryDetails.description}</p>
-              <p className="net-salary">₹{salaryDetails.totalSalary - 0.18*salaryDetails.totalSalary}</p>
+              <p className="net-salary">₹{salaryDetails.netSalary}</p>
             </div>
           </div>
         </div>
         <div className="salary-history">
           <h2 className="section-heading">Salary Disbursement History</h2>
           <ul className="history-list">
-            {salaryDetails.history.map((entry, index) => (
+            {salaryDetails.history.map((item, index) => (
               <li key={index} className="history-item">
-                <span>{new Date(entry.paymentDate).toLocaleDateString()}</span>
-                <span>Amount: ₹{entry.amount}</span>
-                <button onClick={() => handleDownload(new Date(entry.paymentDate).toLocaleDateString(), entry.salarySlip)}>
-                  Download Slip
-                </button>
+                <span>{new Date(item.paymentDate).toLocaleDateString()}</span>
+                <span>Amount: ₹{item.amount}</span>
+                <button>Download Slip</button>
               </li>
             ))}
           </ul>
